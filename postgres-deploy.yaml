@@ -21,7 +21,7 @@ spec:
           - name: POSTGRES_DB
             value: test
           - name: POSTGRES_USER
-            value: myuser
+            value: postgres
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
@@ -54,4 +54,4 @@ metadata:
   name: postgres-secret
 type: Opaque
 data:
-  POSTGRES_PASSWORD: <base64-encoded-password>
+  POSTGRES_PASSWORD: cGFzc3dvcmQgdGVzdA==
