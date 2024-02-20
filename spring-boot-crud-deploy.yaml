@@ -14,29 +14,29 @@ spec:
     spec:
       containers:
         - name: springboot-crud-k8s
-          image: springboot-crud-k8s:latest
+          image: springboot-crud-k8s:1.01
           ports:
-            - containerPort: 8080
-          env:   # Setting Enviornmental Variables
-            - name: DB_HOST   # Setting Database host address from configMap
+            - containerPort: 8091
+          env:   
+            - name: DB_HOST  
               valueFrom :
                 configMapKeyRef :
                   name : db-config
                   key :  host
 
-            - name: DB_NAME  # Setting Database name from configMap
+            - name: DB_NAME  
               valueFrom :
                 configMapKeyRef :
                   name : db-config
                   key :  dbName
 
-            - name: DB_USERNAME  # Setting Database username from Secret
+            - name: DB_USERNAME 
               valueFrom :
                 secretKeyRef :
                   name : postgres-secrets
                   key :  username
 
-            - name: DB_PASSWORD # Setting Database password from Secret
+            - name: DB_PASSWORD 
               valueFrom :
                 secretKeyRef :
                   name : postgres-secrets
@@ -44,15 +44,15 @@ spec:
 
 ---
 
-apiVersion: v1 # Kubernetes API version
-kind: Service # Kubernetes resource kind we are creating
-metadata: # Metadata of the resource kind we are creating
+apiVersion: v1 
+kind: Service 
+metadata: 
   name: springboot-crud-svc
 spec:
   selector:
     app: springboot-k8s-postgres
   ports:
     - protocol: "TCP"
-      port: 8091 # The port that the service is running on in the cluster
-      targetPort: 8091 # The port exposed by the service
-  type: NodePort # type of the service.
+      port: 8091 
+      targetPort: 8091 
+  type: NodePort 
