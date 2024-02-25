@@ -5,16 +5,16 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: springboot-k8s-mysql
-  replicas: 3
+      app: springboot-k8s-postgres
+  replicas: 
   template:
     metadata:
       labels:
-        app: springboot-k8s-mysql
+        app: springboot-k8s-postgres
     spec:
       containers:
         - name: springboot-crud-k8s
-          image: springboot-crud-k8s:1.01
+          image: alamin1889/test:3.0
           ports:
             - containerPort: 8091
           env:   
