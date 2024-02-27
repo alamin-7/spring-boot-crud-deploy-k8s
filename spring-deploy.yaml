@@ -1,42 +1,48 @@
 apiVersion: apps/v1
-kind: Deployment 
+kind: Deployment
 metadata:
-  name: spring-boot-k8s
+  name: springboot-crud-deployment
 spec:
   selector:
     matchLabels:
-      app: spring-boot-k8s
-  replicas: 2
+      app: springboot-k8s-postgres
+  replicas: 
   template:
     metadata:
       labels:
-        app: spring-boot-k8s
+        app: springboot-k8s-postgres
     spec:
       containers:
-        - name: spring-boot-k8s
-          image: alamin1889/spring-boot-crud-k8s-deploy:latest
+        - name: springboot-crud-k8s
+          image: alamin1889/test:4.0
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8099
-          env:
-            - name: DB_HOST
-              valueFrom : 
-                configMapKeyRef :
-                  name : db-config
-                  key :  host
-
-            - name: DB_NAME
+            - containerPort: 8091
+ 
+          env:   
+            - name: DB_HOST  
               valueFrom :
                 configMapKeyRef :
-                  name : db-config
-                  key :  dbName
-
-            - name: DB_USERNAME
-              valueFrom :
-                secretKeyRef :
                   name : postgres-secret
-                  key :  password
+                  key : POSTGRES_HOST
 
+            - name: DB_NAME  
+              valueFrom :
+                configMapKeyRef :
+                  name : postgres-secret
+                  key :  POSTGRES_DB
+
+            - name: DB_USERNAME 
+              valueFrom :
+                configMapKeyRef :
+                  name : postgres-secret
+                  key :  POSTGRES_USER
+
+            - name: DB_PASSWORD 
+              valueFrom :
+                configMapKeyRef :
+                  name : postgres-secret
+                  key :  POSTGRES_PASSWORD
 
 ---
 
@@ -49,6 +55,6 @@ spec:
     app: springboot-k8s-postgres
   ports:
     - protocol: "TCP"
-      port: 8099 
-      targetPort: 8099 
+      port: 8091 
+      targetPort: 8091 
   type: NodePort 
